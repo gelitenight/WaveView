@@ -7,11 +7,27 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class WaveView extends View {
+    /**
+     * +------------------------+
+     * |<--wave length->        |______
+     * |   /\          |   /\   |  |
+     * |  /  \         |  /  \  | amplitude
+     * | /    \        | /    \ |  |
+     * |/      \       |/      \|__|____
+     * |        \      /        |  |
+     * |         \    /         |  |
+     * |          \  /          |  |
+     * |           \/           | water level
+     * |                        |  |
+     * |                        |  |
+     * +------------------------+__|____
+     */
     private static final float DEFAULT_AMPLITUDE_RATIO = 0.05f;
     private static final float DEFAULT_WATER_LEVEL_RATIO = 0.5f;
     private static final float DEFAULT_WAVE_LENGTH_RATIO = 1.0f;
@@ -24,8 +40,10 @@ public class WaveView extends View {
     private BitmapShader mWaveShader;
     // shader matrix
     private Matrix mShaderMatrix;
-    // paint containers wave shader
+    // paint to draw wave
     private Paint mViewPaint;
+    // paint to draw border
+    private Paint mBorderPaint;
 
     private float mDefaultAmplitude;
     private float mDefaultWaterLevel;
@@ -60,6 +78,12 @@ public class WaveView extends View {
         return mWaveShiftRatio;
     }
 
+    /**
+     * Shift the wave horizontally according to <code>waveShiftRatio</code>.
+     *
+     * @param waveShiftRatio Should be 0 ~ 1. Default to be 0.
+     *                       <br/>Result of waveShiftRatio multiples width of WaveView is the length to shift.
+     */
     public void setWaveShiftRatio(float waveShiftRatio) {
         if (mWaveShiftRatio != waveShiftRatio) {
             mWaveShiftRatio = waveShiftRatio;
@@ -71,6 +95,12 @@ public class WaveView extends View {
         return mWaterLevelRatio;
     }
 
+    /**
+     * Set water level according to <code>waterLevelRatio</code>.
+     *
+     * @param waterLevelRatio Should be 0 ~ 1. Default to be 0.5.
+     *                        <br/>Ratio of water level to WaveView height.
+     */
     public void setWaterLevelRatio(float waterLevelRatio) {
         if (mWaterLevelRatio != waterLevelRatio) {
             mWaterLevelRatio = waterLevelRatio;
@@ -82,6 +112,12 @@ public class WaveView extends View {
         return mAmplitudeRatio;
     }
 
+    /**
+     * Set vertical size of wave according to <code>amplitudeRatio</code>
+     *
+     * @param amplitudeRatio Default to be 0.05. Result of amplitudeRatio + waterLevelRatio should be less than 1.
+     *                       <br/>Ratio of amplitude to height of WaveView.
+     */
     public void setAmplitudeRatio(float amplitudeRatio) {
         if (mAmplitudeRatio != amplitudeRatio) {
             mAmplitudeRatio = amplitudeRatio;
@@ -89,12 +125,37 @@ public class WaveView extends View {
         }
     }
 
+    public float getWaveLengthRatio() {
+        return mWaveLengthRatio;
+    }
+
+    /**
+     * Set horizontal size of wave according to <code>waveLengthRatio</code>
+     *
+     * @param waveLengthRatio Default to be 1.
+     *                        <br/>Ratio of wave length to width of WaveView.
+     */
+    public void setWaveLengthRatio(float waveLengthRatio) {
+        mWaveLengthRatio = waveLengthRatio;
+    }
+
     public boolean isShowWave() {
         return mShowWave;
     }
 
     public void setShowWave(boolean showWave) {
-        this.mShowWave = showWave;
+        mShowWave = showWave;
+    }
+
+    public void setBorder(int width, int color) {
+        if (mBorderPaint == null) {
+            mBorderPaint = new Paint();
+            mBorderPaint.setStyle(Style.STROKE);
+        }
+        mBorderPaint.setColor(color);
+        mBorderPaint.setStrokeWidth(width);
+
+        invalidate();
     }
 
     @Override
@@ -105,7 +166,7 @@ public class WaveView extends View {
     }
 
     /**
-     * Create the shader with default waves which repeat horizontally, and clamp colors vertically
+     * Create the shader with default waves which repeat horizontally, and clamp vertically
      */
     private void createShader() {
         mDefaultAngularFrequency = 2.0f * Math.PI / DEFAULT_WAVE_LENGTH_RATIO / getWidth();
@@ -174,10 +235,16 @@ public class WaveView extends View {
             // assign matrix to invalidate the shader
             mWaveShader.setLocalMatrix(mShaderMatrix);
 
-            canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2, mViewPaint);
+            float radius = getWidth() / 2f
+                    - (mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth());
+            canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
         } else {
             mViewPaint.setShader(null);
         }
 
+        if (mBorderPaint != null) {
+            canvas.drawCircle(getWidth() / 2f, getHeight() / 2f,
+                    (getWidth() - mBorderPaint.getStrokeWidth()) / 2f, mBorderPaint);
+        }
     }
 }
