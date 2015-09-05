@@ -44,7 +44,7 @@ public class WaveHelper {
         // waterLevel = 0 -> wave vertically centered
         ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(
                 mWaveView, "waterLevelRatio", 0f, 0.5f);
-        waterLevelAnim.setDuration(5000);
+        waterLevelAnim.setDuration(10000);
         waterLevelAnim.setInterpolator(new DecelerateInterpolator());
         animators.add(waterLevelAnim);
 
