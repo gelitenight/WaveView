@@ -134,10 +134,11 @@ public class WaveView extends View {
             int waveX2 = (waveX1 + wave2Shift) % endX;
             double wx = waveX1 * mDefaultAngularFrequency;
 
-            // draw behind wave with the alpha 40
             int startY = (int) (mDefaultWaterLevel + mDefaultAmplitude * Math.sin(wx));
 
+            // draw bottom wave with the alpha 40
             canvas.drawLine(waveX1, startY, waveX1, endY, wavePaint1);
+            // draw top wave with the alpha 60
             canvas.drawLine(waveX2, startY, waveX2, endY, wavePaint2);
 
             waveX1++;
@@ -157,19 +158,22 @@ public class WaveView extends View {
                 mViewPaint.setShader(mWaveShader);
             }
 
-            // translate shader accordingly to maskX maskY positions
-            // maskY is affected by the offset to vertically center the wave
+            // sacle shader according to mWaveLengthRatio and mAmplitudeRatio
+            // this decides the size(mWaveLengthRatio for width, mAmplitudeRatio for height) of waves
             mShaderMatrix.setScale(
                     mWaveLengthRatio / DEFAULT_WAVE_LENGTH_RATIO,
                     mAmplitudeRatio / DEFAULT_AMPLITUDE_RATIO,
                     0,
                     mDefaultWaterLevel);
+            // translate shader according to mWaveShiftRatio and mWaterLevelRatio
+            // this decides the start position(mWaveShiftRatio for x, mWaterLevelRatio for y) of waves
             mShaderMatrix.postTranslate(
                     mWaveShiftRatio * getWidth(),
                     (DEFAULT_WATER_LEVEL_RATIO - mWaterLevelRatio) * getHeight());
 
             // assign matrix to invalidate the shader
             mWaveShader.setLocalMatrix(mShaderMatrix);
+
             canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2, mViewPaint);
         } else {
             mViewPaint.setShader(null);
