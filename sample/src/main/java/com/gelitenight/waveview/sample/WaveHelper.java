@@ -33,6 +33,7 @@ public class WaveHelper {
         List<Animator> animators = new ArrayList<>();
 
         // horizontal animation.
+        // wave waves infinitely.
         ObjectAnimator waveShiftAnim = ObjectAnimator.ofFloat(
                 mWaveView, "waveShiftRatio", 0f, 1f);
         waveShiftAnim.setRepeatCount(ValueAnimator.INFINITE);
@@ -41,7 +42,7 @@ public class WaveHelper {
         animators.add(waveShiftAnim);
 
         // vertical animation.
-        // waterLevel = 0 -> wave vertically centered
+        // water level increases from 0 to center of WaveView
         ObjectAnimator waterLevelAnim = ObjectAnimator.ofFloat(
                 mWaveView, "waterLevelRatio", 0f, 0.5f);
         waterLevelAnim.setDuration(10000);
