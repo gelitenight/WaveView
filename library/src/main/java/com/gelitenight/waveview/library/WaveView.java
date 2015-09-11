@@ -62,6 +62,7 @@ public class WaveView extends View {
 
     private float mDefaultAmplitude;
     private float mDefaultWaterLevel;
+    private float mDefaultWaveLength;
     private double mDefaultAngularFrequency;
 
     private float mAmplitudeRatio = DEFAULT_AMPLITUDE_RATIO;
@@ -87,6 +88,7 @@ public class WaveView extends View {
     private void init() {
         mShaderMatrix = new Matrix();
         mViewPaint = new Paint();
+        mViewPaint.setAntiAlias(true);
     }
 
     public float getWaveShiftRatio() {
@@ -187,34 +189,36 @@ public class WaveView extends View {
         mDefaultAngularFrequency = 2.0f * Math.PI / DEFAULT_WAVE_LENGTH_RATIO / getWidth();
         mDefaultAmplitude = getHeight() * DEFAULT_AMPLITUDE_RATIO;
         mDefaultWaterLevel = getHeight() * DEFAULT_WATER_LEVEL_RATIO;
+        mDefaultWaveLength = getWidth();
 
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
         // Draw default waves into the bitmap
         // y=Asin(ωx+φ)+h
-        int waveX1 = 0;
-        final int wave2Shift = getWidth() / 4;
-        final int endX = getWidth();
-        final int endY = getHeight();
+        float waveX1 = 0;
+        final float wave2Shift = mDefaultWaveLength / 4;
+        final float endX = getWidth();
+        final float endY = getHeight();
 
         final Paint wavePaint1 = new Paint();
         wavePaint1.setColor(Color.WHITE);
         wavePaint1.setAlpha(40);
+        wavePaint1.setAntiAlias(true);
 
         final Paint wavePaint2 = new Paint();
         wavePaint2.setColor(Color.WHITE);
         wavePaint2.setAlpha(60);
+        wavePaint2.setAntiAlias(true);
 
         while (waveX1 < endX) {
-            int waveX2 = (waveX1 + wave2Shift) % endX;
             double wx = waveX1 * mDefaultAngularFrequency;
-
             int startY = (int) (mDefaultWaterLevel + mDefaultAmplitude * Math.sin(wx));
 
             // draw bottom wave with the alpha 40
             canvas.drawLine(waveX1, startY, waveX1, endY, wavePaint1);
             // draw top wave with the alpha 60
+            float waveX2 = (waveX1 + wave2Shift) % endX;
             canvas.drawLine(waveX2, startY, waveX2, endY, wavePaint2);
 
             waveX1++;
