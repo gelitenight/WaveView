@@ -64,6 +64,12 @@ public class WaveView extends View {
     private float mDefaultWaterLevel;
     private float mDefaultWaveLength;
     private double mDefaultAngularFrequency;
+    private int mWaveColor;
+    private ShapeType mShapeType = ShapeType.CIRCLE;
+    public enum ShapeType {
+        CIRCLE,
+        SQUARE
+    }
 
     private float mAmplitudeRatio = DEFAULT_AMPLITUDE_RATIO;
     private float mWaveLengthRatio = DEFAULT_WAVE_LENGTH_RATIO;
@@ -174,6 +180,14 @@ public class WaveView extends View {
 
         invalidate();
     }
+    
+    public void setWaveColor(int waveColor) {
+        mWaveColor = waveColor;
+    }
+
+    public void setShapeType(ShapeType shapeType) {
+        mShapeType = shapeType;
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -253,10 +267,16 @@ public class WaveView extends View {
 
             // assign matrix to invalidate the shader
             mWaveShader.setLocalMatrix(mShaderMatrix);
-
-            float radius = getWidth() / 2f
-                    - (mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth());
-            canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
+            
+            switch (mShapeType) {
+                case CIRCLE:
+                    float radius = getWidth() / 2f - (mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth());
+                    canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
+                    break;
+                case SQUARE:
+                    canvas.drawRect(0f, 0f, getWidth(), getHeight(), mViewPaint);
+                    break;
+            }
         } else {
             mViewPaint.setShader(null);
         }
