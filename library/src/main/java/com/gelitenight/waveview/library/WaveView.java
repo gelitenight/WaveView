@@ -282,8 +282,14 @@ public class WaveView extends View {
         }
 
         if (mBorderPaint != null) {
-            canvas.drawCircle(getWidth() / 2f, getHeight() / 2f,
-                    (getWidth() - mBorderPaint.getStrokeWidth()) / 2f, mBorderPaint);
+            switch (mShapeType) {
+                case CIRCLE:
+                    canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, (getWidth() - mBorderPaint.getStrokeWidth()) / 2f, mBorderPaint);
+                    break;
+                case SQUARE:
+                    canvas.drawRect(0f, 0f, getWidth(), getHeight(), mBorderPaint);
+                    break;
+            }
         }
     }
 }
