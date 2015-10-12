@@ -216,13 +216,13 @@ public class WaveView extends View {
         final float endY = getHeight();
 
         final Paint wavePaint1 = new Paint();
-        wavePaint1.setColor(Color.WHITE);
-        wavePaint1.setAlpha(40);
+        wavePaint1.setColor(mWaveColor != 0 ? mWaveColor : Color.WHITE);
+        wavePaint1.setAlpha(mWaveColor != 0 ? 170 : 40);
         wavePaint1.setAntiAlias(true);
 
         final Paint wavePaint2 = new Paint();
-        wavePaint2.setColor(Color.WHITE);
-        wavePaint2.setAlpha(60);
+        wavePaint2.setColor(mWaveColor != 0 ? mWaveColor : Color.WHITE);
+        wavePaint2.setAlpha(mWaveColor != 0 ? 255 : 60);
         wavePaint2.setAntiAlias(true);
 
         while (waveX1 < endX) {
