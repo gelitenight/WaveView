@@ -64,6 +64,12 @@ public class WaveView extends View {
     private float mDefaultWaterLevel;
     private float mDefaultWaveLength;
     private double mDefaultAngularFrequency;
+    private int mWaveColor;
+    private ShapeType mShapeType = ShapeType.CIRCLE;
+    public enum ShapeType {
+        CIRCLE,
+        SQUARE
+    }
 
     private float mAmplitudeRatio = DEFAULT_AMPLITUDE_RATIO;
     private float mWaveLengthRatio = DEFAULT_WAVE_LENGTH_RATIO;
@@ -174,6 +180,14 @@ public class WaveView extends View {
 
         invalidate();
     }
+    
+    public void setWaveColor(int waveColor) {
+        mWaveColor = waveColor;
+    }
+
+    public void setShapeType(ShapeType shapeType) {
+        mShapeType = shapeType;
+    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -202,13 +216,13 @@ public class WaveView extends View {
         final float endY = getHeight();
 
         final Paint wavePaint1 = new Paint();
-        wavePaint1.setColor(Color.WHITE);
-        wavePaint1.setAlpha(40);
+        wavePaint1.setColor(mWaveColor != 0 ? mWaveColor : Color.WHITE);
+        wavePaint1.setAlpha(mWaveColor != 0 ? 170 : 40);
         wavePaint1.setAntiAlias(true);
 
         final Paint wavePaint2 = new Paint();
-        wavePaint2.setColor(Color.WHITE);
-        wavePaint2.setAlpha(60);
+        wavePaint2.setColor(mWaveColor != 0 ? mWaveColor : Color.WHITE);
+        wavePaint2.setAlpha(mWaveColor != 0 ? 255 : 60);
         wavePaint2.setAntiAlias(true);
 
         while (waveX1 < endX) {
@@ -253,17 +267,29 @@ public class WaveView extends View {
 
             // assign matrix to invalidate the shader
             mWaveShader.setLocalMatrix(mShaderMatrix);
-
-            float radius = getWidth() / 2f
-                    - (mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth());
-            canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
+            
+            switch (mShapeType) {
+                case CIRCLE:
+                    float radius = getWidth() / 2f - (mBorderPaint == null ? 0f : mBorderPaint.getStrokeWidth());
+                    canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
+                    break;
+                case SQUARE:
+                    canvas.drawRect(0f, 0f, getWidth(), getHeight(), mViewPaint);
+                    break;
+            }
         } else {
             mViewPaint.setShader(null);
         }
 
         if (mBorderPaint != null) {
-            canvas.drawCircle(getWidth() / 2f, getHeight() / 2f,
-                    (getWidth() - mBorderPaint.getStrokeWidth()) / 2f, mBorderPaint);
+            switch (mShapeType) {
+                case CIRCLE:
+                    canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, (getWidth() - mBorderPaint.getStrokeWidth()) / 2f, mBorderPaint);
+                    break;
+                case SQUARE:
+                    canvas.drawRect(0f, 0f, getWidth(), getHeight(), mBorderPaint);
+                    break;
+            }
         }
     }
 }
