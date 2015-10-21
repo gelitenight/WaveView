@@ -178,6 +178,7 @@ public class WaveView extends View {
     public void setBorder(int width, int color) {
         if (mBorderPaint == null) {
             mBorderPaint = new Paint();
+            mBorderPaint.setAntiAlias(true);
             mBorderPaint.setStyle(Style.STROKE);
         }
         mBorderPaint.setColor(color);
