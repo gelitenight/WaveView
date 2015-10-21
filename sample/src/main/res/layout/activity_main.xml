@@ -3,17 +3,121 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="#333"
     tools:context=".MainActivity">
 
     <com.gelitenight.waveview.library.WaveView
         android:id="@+id/wave"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/colorChoice"
+        android:layout_centerHorizontal="true"/>
 
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/border"
+        android:layout_alignBottom="@+id/border"
+        android:layout_below="@+id/shape"
+        android:layout_toEndOf="@+id/border"
+        android:layout_toRightOf="@+id/border"
+        android:max="50"
+        android:progress="10"/>
+
+    <TextView
+        android:id="@+id/border"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/shape"
+        android:text="@string/border"/>
+
+    <TextView
+        android:id="@+id/shape"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:text="@string/shape"/>
+
+    <RadioGroup
+        android:id="@+id/shapeChoice"
+        android:layout_alignTop="@+id/shape"
+        android:layout_toRightOf="@id/shape"
+        android:layout_marginLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/shapeCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/circle"/>
+
+        <RadioButton
+            android:id="@+id/shapeSquare"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/square"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/color"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/border"
+        android:text="@string/color"/>
+
+    <RadioGroup
+        android:id="@+id/colorChoice"
+        android:layout_below="@id/color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/colorDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/defaultColor"/>
+
+        <RadioButton
+            android:id="@+id/colorRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textColor="#f16d7a"
+            android:buttonTint="#f16d7a"
+            android:text="@string/red"/>
+
+        <RadioButton
+            android:id="@+id/colorGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textColor="#b7d28d"
+            android:buttonTint="#b7d28d"
+            android:text="@string/green"/>
+
+        <RadioButton
+            android:id="@+id/colorBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textColor="#b8f1ed"
+            android:buttonTint="#b8f1ed"
+            android:text="@string/blue"/>
+    </RadioGroup>
 </RelativeLayout>

@@ -65,7 +65,8 @@ public class WaveHelper {
 
     public void cancel() {
         if (mAnimatorSet != null) {
-            mAnimatorSet.cancel();
+//            mAnimatorSet.cancel();
+            mAnimatorSet.end();
         }
     }
 }
