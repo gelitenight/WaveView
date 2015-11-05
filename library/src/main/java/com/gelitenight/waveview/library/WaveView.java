@@ -48,7 +48,8 @@ public class WaveView extends View {
     private static final float DEFAULT_WAVE_LENGTH_RATIO = 1.0f;
     private static final float DEFAULT_WAVE_SHIFT_RATIO = 0.0f;
 
-    public static final int DEFAULT_WAVE_COLOR = Color.WHITE;
+    public static final int DEFAULT_BEHIND_WAVE_COLOR = Color.parseColor("#28FFFFFF");
+    public static final int DEFAULT_FRONT_WAVE_COLOR = Color.parseColor("#3CFFFFFF");
     public static final ShapeType DEFAULT_WAVE_SHAPE = ShapeType.CIRCLE;
 
     public enum ShapeType {
@@ -78,7 +79,8 @@ public class WaveView extends View {
     private float mWaterLevelRatio = DEFAULT_WATER_LEVEL_RATIO;
     private float mWaveShiftRatio = DEFAULT_WAVE_SHIFT_RATIO;
 
-    private int mWaveColor = DEFAULT_WAVE_COLOR;
+    private int mBehindWaveColor = DEFAULT_BEHIND_WAVE_COLOR;
+    private int mFrontWaveColor = DEFAULT_FRONT_WAVE_COLOR;
     private ShapeType mShapeType = DEFAULT_WAVE_SHAPE;
 
     public WaveView(Context context) {
@@ -187,8 +189,9 @@ public class WaveView extends View {
         invalidate();
     }
 
-    public void setWaveColor(int waveColor) {
-        mWaveColor = waveColor;
+    public void setWaveColor(int behindWaveColor, int frontWaveColor) {
+        mBehindWaveColor = behindWaveColor;
+        mFrontWaveColor = frontWaveColor;
 
         // need to recreate shader when color changed
         mWaveShader = null;
@@ -221,7 +224,6 @@ public class WaveView extends View {
         Canvas canvas = new Canvas(bitmap);
 
         Paint wavePaint = new Paint();
-        wavePaint.setColor(mWaveColor);
         wavePaint.setStrokeWidth(2);
         wavePaint.setAntiAlias(true);
 
@@ -232,7 +234,7 @@ public class WaveView extends View {
 
         float[] waveY = new float[endX];
 
-        wavePaint.setAlpha(40);
+        wavePaint.setColor(mBehindWaveColor);
         for (int beginX = 0; beginX < endX; beginX++) {
             double wx = beginX * mDefaultAngularFrequency;
             float beginY = (float) (mDefaultWaterLevel + mDefaultAmplitude * Math.sin(wx));
@@ -241,7 +243,7 @@ public class WaveView extends View {
             waveY[beginX] = beginY;
         }
 
-        wavePaint.setAlpha(60);
+        wavePaint.setColor(mFrontWaveColor);
         final int wave2Shift = (int) (mDefaultWaveLength / 4);
         for (int beginX = 0; beginX < endX; beginX++) {
             canvas.drawLine(beginX, waveY[(beginX + wave2Shift) % endX], beginX, endY, wavePaint);

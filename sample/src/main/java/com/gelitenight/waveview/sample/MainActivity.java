@@ -82,22 +82,30 @@ public class MainActivity extends AppCompatActivity {
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
                     switch (i) {
                         case R.id.colorRed:
-                            waveView.setWaveColor(getResources().getColor(R.color.red));
-                            mBorderColor = getResources().getColor(R.color.red);
+                            waveView.setWaveColor(
+                                Color.parseColor("#28f16d7a"),
+                                Color.parseColor("#3cf16d7a"));
+                            mBorderColor = Color.parseColor("#44f16d7a");
                             waveView.setBorder(mBorderWidth, mBorderColor);
                             break;
                         case R.id.colorGreen:
-                            waveView.setWaveColor(getResources().getColor(R.color.green));
-                            mBorderColor = getResources().getColor(R.color.green);
+                            waveView.setWaveColor(
+                                Color.parseColor("#40b7d28d"),
+                                Color.parseColor("#80b7d28d"));
+                            mBorderColor = Color.parseColor("#B0b7d28d");
                             waveView.setBorder(mBorderWidth, mBorderColor);
                             break;
                         case R.id.colorBlue:
-                            waveView.setWaveColor(getResources().getColor(R.color.blue));
-                            mBorderColor = getResources().getColor(R.color.blue);
+                            waveView.setWaveColor(
+                                Color.parseColor("#88b8f1ed"),
+                                Color.parseColor("#b8f1ed"));
+                            mBorderColor = Color.parseColor("#b8f1ed");
                             waveView.setBorder(mBorderWidth, mBorderColor);
                             break;
                         default:
-                            waveView.setWaveColor(WaveView.DEFAULT_WAVE_COLOR);
+                            waveView.setWaveColor(
+                                WaveView.DEFAULT_BEHIND_WAVE_COLOR,
+                                WaveView.DEFAULT_FRONT_WAVE_COLOR);
                             mBorderColor = Color.parseColor("#44FFFFFF");
                             waveView.setBorder(mBorderWidth, mBorderColor);
                             break;
