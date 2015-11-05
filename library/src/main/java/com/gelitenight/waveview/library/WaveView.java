@@ -186,7 +186,7 @@ public class WaveView extends View {
 
         invalidate();
     }
-    
+
     public void setWaveColor(int waveColor) {
         mWaveColor = waveColor;
 
@@ -220,34 +220,31 @@ public class WaveView extends View {
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
+        Paint wavePaint = new Paint();
+        wavePaint.setColor(mWaveColor);
+        wavePaint.setStrokeWidth(2);
+        wavePaint.setAntiAlias(true);
+
         // Draw default waves into the bitmap
         // y=Asin(ωx+φ)+h
-        float waveX1 = 0;
-        final float wave2Shift = mDefaultWaveLength / 4;
-        final float endX = getWidth() + 1;
-        final float endY = getHeight() + 1;
+        final int endX = getWidth() + 1;
+        final int endY = getHeight() + 1;
 
-        final Paint wavePaint1 = new Paint();
-        wavePaint1.setColor(mWaveColor);
-        wavePaint1.setAlpha(mWaveColor != DEFAULT_WAVE_COLOR ? 170 : 40);
-        wavePaint1.setAntiAlias(true);
+        float[] waveY = new float[endX];
 
-        final Paint wavePaint2 = new Paint();
-        wavePaint2.setColor(mWaveColor);
-        wavePaint2.setAlpha(mWaveColor != DEFAULT_WAVE_COLOR ? 255 : 60);
-        wavePaint2.setAntiAlias(true);
+        wavePaint.setAlpha(40);
+        for (int beginX = 0; beginX < endX; beginX++) {
+            double wx = beginX * mDefaultAngularFrequency;
+            float beginY = (float) (mDefaultWaterLevel + mDefaultAmplitude * Math.sin(wx));
+            canvas.drawLine(beginX, beginY, beginX, endY, wavePaint);
 
-        while (waveX1 < endX) {
-            double wx = waveX1 * mDefaultAngularFrequency;
-            int startY = (int) (mDefaultWaterLevel + mDefaultAmplitude * Math.sin(wx));
+            waveY[beginX] = beginY;
+        }
 
-            // draw bottom wave with the alpha 40
-            canvas.drawLine(waveX1, startY, waveX1, endY, wavePaint1);
-            // draw top wave with the alpha 60
-            float waveX2 = (waveX1 + wave2Shift) % endX;
-            canvas.drawLine(waveX2, startY, waveX2, endY, wavePaint2);
-
-            waveX1++;
+        wavePaint.setAlpha(60);
+        final int wave2Shift = (int) (mDefaultWaveLength / 4);
+        for (int beginX = 0; beginX < endX; beginX++) {
+            canvas.drawLine(beginX, waveY[(beginX + wave2Shift) % endX], beginX, endY, wavePaint);
         }
 
         // use the bitamp to create the shader
