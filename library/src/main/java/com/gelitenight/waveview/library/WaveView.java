@@ -284,7 +284,7 @@ public class WaveView extends View {
                 case CIRCLE:
                     if (borderWidth > 0) {
                         canvas.drawCircle(getWidth() / 2f, getHeight() / 2f,
-                            (getWidth() - borderWidth) / 2f, mBorderPaint);
+                            (getWidth() - borderWidth) / 2f - 1f, mBorderPaint);
                     }
                     float radius = getWidth() / 2f - borderWidth;
                     canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mViewPaint);
@@ -294,8 +294,8 @@ public class WaveView extends View {
                         canvas.drawRect(
                             borderWidth / 2f,
                             borderWidth / 2f,
-                            getWidth() - borderWidth / 2f,
-                            getHeight() - borderWidth / 2f,
+                            getWidth() - borderWidth / 2f - 0.5f,
+                            getHeight() - borderWidth / 2f - 0.5f,
                             mBorderPaint);
                     }
                     canvas.drawRect(borderWidth, borderWidth, getWidth() - borderWidth,
