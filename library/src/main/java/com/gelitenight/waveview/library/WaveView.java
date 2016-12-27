@@ -193,10 +193,12 @@ public class WaveView extends View {
         mBehindWaveColor = behindWaveColor;
         mFrontWaveColor = frontWaveColor;
 
-        // need to recreate shader when color changed
-        mWaveShader = null;
-        createShader();
-        invalidate();
+        if (getWidth() > 0 && getHeight() > 0) {
+            // need to recreate shader when color changed
+            mWaveShader = null;
+            createShader();
+            invalidate();
+        }
     }
 
     public void setShapeType(ShapeType shapeType) {
