@@ -112,7 +112,7 @@ public class WaveView extends View {
      * Shift the wave horizontally according to <code>waveShiftRatio</code>.
      *
      * @param waveShiftRatio Should be 0 ~ 1. Default to be 0.
-     *                       <br/>Result of waveShiftRatio multiples width of WaveView is the length to shift.
+     *                       Result of waveShiftRatio multiples width of WaveView is the length to shift.
      */
     public void setWaveShiftRatio(float waveShiftRatio) {
         if (mWaveShiftRatio != waveShiftRatio) {
@@ -129,7 +129,7 @@ public class WaveView extends View {
      * Set water level according to <code>waterLevelRatio</code>.
      *
      * @param waterLevelRatio Should be 0 ~ 1. Default to be 0.5.
-     *                        <br/>Ratio of water level to WaveView height.
+     *                        Ratio of water level to WaveView height.
      */
     public void setWaterLevelRatio(float waterLevelRatio) {
         if (mWaterLevelRatio != waterLevelRatio) {
@@ -146,7 +146,7 @@ public class WaveView extends View {
      * Set vertical size of wave according to <code>amplitudeRatio</code>
      *
      * @param amplitudeRatio Default to be 0.05. Result of amplitudeRatio + waterLevelRatio should be less than 1.
-     *                       <br/>Ratio of amplitude to height of WaveView.
+     *                       Ratio of amplitude to height of WaveView.
      */
     public void setAmplitudeRatio(float amplitudeRatio) {
         if (mAmplitudeRatio != amplitudeRatio) {
@@ -163,7 +163,7 @@ public class WaveView extends View {
      * Set horizontal size of wave according to <code>waveLengthRatio</code>
      *
      * @param waveLengthRatio Default to be 1.
-     *                        <br/>Ratio of wave length to width of WaveView.
+     *                        Ratio of wave length to width of WaveView.
      */
     public void setWaveLengthRatio(float waveLengthRatio) {
         mWaveLengthRatio = waveLengthRatio;
