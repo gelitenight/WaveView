@@ -4,7 +4,11 @@ A view to display wave effect.
 ## Screenshot
 ![Screenshot](screenshot.gif)
 
-## How to use
+## Integration
+```
+compile 'com.gelitenight.waveview:waveview:1.0.0'
+```
+
 Setter methods:
  * `setWaveShiftRatio` - Shift the wave horizontally.
  * `setWaterLevelRatio` - Set water level.
