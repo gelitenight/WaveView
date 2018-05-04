@@ -8,7 +8,7 @@ A view to display wave effect.
 
 ## Integration
 ```
-compile 'com.gelitenight.waveview:waveview:1.0.0'
+implementation 'com.gelitenight.waveview:waveview:1.0.0'
 ```
 
 Setter methods:
