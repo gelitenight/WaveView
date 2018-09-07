@@ -90,18 +90,37 @@ public class WaveView extends View {
 
     public WaveView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public WaveView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(attrs);
     }
 
     private void init() {
         mShaderMatrix = new Matrix();
         mViewPaint = new Paint();
         mViewPaint.setAntiAlias(true);
+    }
+
+    private void init(AttributeSet attrs) {
+        init();
+
+        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs,
+                R.styleable.WaveView, 0, 0);
+
+        mAmplitudeRatio = typedArray.getFloat(R.styleable.WaveView_amplitudeRatio, DEFAULT_AMPLITUDE_RATIO);
+        mWaterLevelRatio = typedArray.getFloat(R.styleable.WaveView_waveWaterLevel, DEFAULT_WATER_LEVEL_RATIO);
+        mWaveLengthRatio = typedArray.getFloat(R.styleable.WaveView_waveLengthRatio, DEFAULT_WAVE_LENGTH_RATIO);
+        mWaveShiftRatio = typedArray.getFloat(R.styleable.WaveView_waveShiftRatio, DEFAULT_WAVE_SHIFT_RATIO);
+        mFrontWaveColor = typedArray.getColor(R.styleable.WaveView_frontWaveColor, DEFAULT_FRONT_WAVE_COLOR);
+        mBehindWaveColor = typedArray.getColor(R.styleable.WaveView_behindWaveColor, DEFAULT_BEHIND_WAVE_COLOR);
+        mShapeType = typedArray.getInt(R.styleable.WaveView_waveShape, 0) == 0 ? ShapeType.CIRCLE : ShapeType.SQUARE;
+        mShowWave = typedArray.getBoolean(R.styleable.WaveView_showWave, true);
+
+        typedArray.recycle();
+
     }
 
     public float getWaveShiftRatio() {
